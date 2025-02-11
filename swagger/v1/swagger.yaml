@@ -1,0 +1,50 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  "/api/v1/users":
+    get:
+      summary: list User
+      tags:
+        - User
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful
+          content:
+            application/json:
+              examples:
+                example:
+                  value:
+                    - id: 1
+                      first_name: "React"
+                      last_name: "Plus"
+                      email: "reactplus@example.com"
+                      phone: "123456789"
+                      address: "Hanoi, Vietnam"
+                      birth_date: "1990-01-01"
+        "400":
+          description: Bad Request
+security:
+  - BearerAuth: []
+servers:
+  - url: http://localhost:3000
+    variables:
+      defaultHost:
+        default: localhost:3000

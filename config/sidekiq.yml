@@ -1,0 +1,12 @@
+---
+:queues:
+  - default
+
+:concurrency: <%= ENV["SIDEKIQ_CONCURRENCY"] || ENV["RAILS_MAX_THREADS"] || 5 %>
+
+
+# :scheduler:
+#   :schedule:
+#     hello_world:
+#       cron: '0 * * * * *'   # Runs once per minute
+#       class: HelloWorld

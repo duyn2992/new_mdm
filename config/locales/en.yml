@@ -1,0 +1,23 @@
+en:
+  api:
+    common:
+      success: "Success"
+      fail: "Fail"
+      custom_code: "Custom code"
+      create_success: "Create resource successfully."
+      update_success: "Update resource successfully."
+      delete_success: "Delete resource successfully."
+    error:
+      bad_request: "Invalid input"
+      unauthorized: "You must authenticate yourself before continue."
+      forbidden: "You do not have permission to perform this action."
+      not_found: "Resource not found"
+      unprocessable_entity: "Server can't complete the request."
+      server_error: "Something went wrong on server."
+      already_exists: "Resource already exists."
+      need_password_change: "You need to change your password first before continue."
+      some_references_not_found: "Some references not found."
+      session_has_expired: "Login session has expired!"
+      invalid_xml: "Invalid XML file"
+      route_not_found: "Route not found"
+      incorrect_captcha: "Incorrect captcha"

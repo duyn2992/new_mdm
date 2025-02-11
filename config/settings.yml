@@ -1,0 +1,4 @@
+page:
+  default: 1
+per_page:
+  default: 10
