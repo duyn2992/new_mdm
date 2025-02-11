@@ -2,8 +2,6 @@
 
 source "https://rubygems.org"
 
-ruby file: ".ruby-version"
-
 gem "bootsnap", require: false
 gem "good_migrations"
 gem "mysql2", "~> 0.5"

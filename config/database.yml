@@ -13,9 +13,9 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= [5, *ENV.values_at("RAILS_MAX_THREADS", "SIDEKIQ_CONCURRENCY")].map(&:to_i).max %>
-  username: root
-  password: <%= ENV['MDM_DATABASE_PASSWORD'] %>
-  host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
+  username: <%= ENV["MYSQL_USER"] { "root" } %>
+  password: <%= ENV["MYSQL_PASSWORD"] %>
+  host: <%= ENV.fetch("MYSQL_HOST") { "mysql" } %>
 
 development:
   <<: *default
@@ -51,11 +51,7 @@ test:
 production:
   <<: *default
   database: mdm_production
-  username: mdm
-  password: <%= ENV["MDM_DATABASE_PASSWORD"] %>
 
 staging:
   <<: *default
   database: mdm_staging
-  username: mdm
-  password: <%= ENV["MDM_DATABASE_PASSWORD"] %>

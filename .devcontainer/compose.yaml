@@ -7,10 +7,10 @@ services:
       dockerfile: .devcontainer/Dockerfile
 
     volumes:
-    - ../..:/workspaces:cached
+    - ./../:/rails
 
     # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
+    command: ./bin/rails server -b 0.0.0.0
 
     # Uncomment the next line to use a non-root user for all processes.
     # user: vscode
@@ -23,13 +23,11 @@ services:
 
   redis:
     image: redis:7.2
-    restart: unless-stopped
     volumes:
     - redis-data:/data
 
   mysql:
     image: mysql/mysql-server:8.0
-    restart: unless-stopped
     environment:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
         MYSQL_ROOT_HOST: "%"
