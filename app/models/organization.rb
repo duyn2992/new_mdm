@@ -2,23 +2,22 @@
 
 # == Schema Information
 #
-# Table name: users
+# Table name: organizations
 #
 #  id         :bigint           not null, primary key
-#  email      :string(255)      not null
+#  name       :string(255)      not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_users_on_email  (email) UNIQUE
+#  index_organizations_on_name  (name) UNIQUE
 #
-class User < ApplicationRecord
+class Organization < ApplicationRecord
   has_many :organization_users, dependent: :destroy
-  has_many :organizations, through: :organization_users
-  has_many :devices, dependent: :destroy
+  has_many :users, through: :organization_users
 
-  validates :email,
+  validates :name,
     presence: true,
     uniqueness: true
 end
