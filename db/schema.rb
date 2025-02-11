@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_11_071539) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_11_101243) do
   create_table "devices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "serial_number"
-    t.integer "device_type"
+    t.integer "device_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["serial_number"], name: "index_devices_on_serial_number", unique: true

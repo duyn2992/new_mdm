@@ -5,7 +5,7 @@
 # Table name: devices
 #
 #  id            :bigint           not null, primary key
-#  device_type   :integer
+#  device_type   :integer          default("ios"), not null
 #  serial_number :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -33,4 +33,12 @@ class Device < ApplicationRecord
   validates :serial_number,
     presence: true,
     uniqueness: true
+
+  validates :device_type,
+    presence: true,
+    inclusion: {in: device_types.keys}
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[serial_number device_type user_id]
+  end
 end

@@ -14,7 +14,7 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :organizations
+  attributes :id, :email
 
-  has_many :organizations
+  has_many :organizations, serializer: Simple::OrganizationSerializer
 end

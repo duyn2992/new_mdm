@@ -1,4 +1,4 @@
 page:
   default: 1
-per_page:
+limit:
   default: 10

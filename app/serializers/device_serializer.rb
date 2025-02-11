@@ -5,7 +5,7 @@
 # Table name: devices
 #
 #  id            :bigint           not null, primary key
-#  device_type   :integer
+#  device_type   :integer          default("ios"), not null
 #  serial_number :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -21,7 +21,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class DeviceSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :serial_number, :device_type
+  attributes :id, :serial_number, :device_type
 
-  belongs_to :user
+  belongs_to :user, serializer: Simple::UserSerializer
 end

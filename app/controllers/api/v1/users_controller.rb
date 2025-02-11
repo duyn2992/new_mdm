@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-class Api::V1::UsersController < Api::V1::BaseController
-  def index
-    query = User.ransack(params[:q])
+class Api::V1::UsersController < Api::V1::CrudController
+  private
 
-    pagy, users = pagy(
-      query.result.order(created_at: :desc),
-      limit: params[:per_page] || Settings.per_page.default,
-      page: params[:page] || Settings.page.default
-    )
+  def resource_params
+    params.require(:user).permit(:email, organization_ids: [])
+  end
 
-    response_success({users: users.map { |user| UserSerializer.new(user).as_json }, pagy:})
+  def update_associations(user)
+    if resource_params[:organization_ids].present?
+      user.organizations = Organization.where(id: resource_params[:organization_ids])
+    end
   end
 end

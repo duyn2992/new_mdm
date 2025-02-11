@@ -14,7 +14,7 @@
 #  index_organizations_on_name  (name) UNIQUE
 #
 class OrganizationSerializer < ActiveModel::Serializer
-  attributes :id, :name, :users
+  attributes :id, :name
 
-  has_many :users
+  has_many :users, serializer: Simple::UserSerializer
 end

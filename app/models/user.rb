@@ -21,4 +21,8 @@ class User < ApplicationRecord
   validates :email,
     presence: true,
     uniqueness: true
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[email]
+  end
 end
