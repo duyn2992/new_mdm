@@ -13924,7 +13924,7 @@ object-assign
                                             w.a.createElement(
                                                 "div",
                                                 { className: "topbar-wrapper" },
-                                                w.a.createElement(o, null, w.a.createElement("img", { src: "rpg_logo.png", alt: "Reactplus logo" })),
+                                                w.a.createElement(o, null, w.a.createElement("img", { src: "rails_logo.png", alt: "Logo" })),
                                                 w.a.createElement(
                                                     "form",
                                                     { className: "download-url-wrapper", onSubmit: f },

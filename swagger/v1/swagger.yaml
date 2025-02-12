@@ -1,8 +1,9 @@
 ---
 openapi: 3.0.1
 info:
-  title: API V1
-  version: v1
+  title: "MDM API"
+  description: "API documentation for MDM system"
+  version: "1.0.0"
 components:
   securitySchemes:
     BearerAuth:
@@ -10,41 +11,288 @@ components:
       scheme: bearer
       bearerFormat: JWT
 paths:
-  "/api/v1/users":
+  /api/v1/organizations:
     get:
-      summary: list User
+      summary: "List organizations"
+      operationId: "getOrganizations"
       tags:
-        - User
-      parameters:
-        - name: page
-          in: query
-          schema:
-            type: string
-        - name: per_page
-          in: query
-          schema:
-            type: string
+        - "Organizations"
       responses:
-        "200":
-          description: Successful
-          content:
-            application/json:
-              examples:
-                example:
-                  value:
-                    - id: 1
-                      first_name: "React"
-                      last_name: "Plus"
-                      email: "reactplus@example.com"
-                      phone: "123456789"
-                      address: "Hanoi, Vietnam"
-                      birth_date: "1990-01-01"
-        "400":
-          description: Bad Request
-security:
-  - BearerAuth: []
-servers:
-  - url: http://localhost:3000
-    variables:
-      defaultHost:
-        default: localhost:3000
+        200:
+          description: "Successful response"
+    post:
+      summary: "Create an organization"
+      operationId: "createOrganization"
+      tags:
+        - "Organizations"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "company0001"
+                    user_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example: [1,2,3]
+      responses:
+        200:
+          description: "Organization created"
+  /api/v1/organizations/{id}:
+    patch:
+      summary: "Update an organization"
+      operationId: "updateOrganization"
+      tags:
+        - "Organizations"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "company0001"
+                    user_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example: [1,2,3]
+      responses:
+        200:
+          description: "Organization updated"
+    delete:
+      summary: "Delete an organization"
+      operationId: "deleteOrganization"
+      tags:
+        - "Organizations"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Organization deleted"
+  /api/v1/users:
+    get:
+      summary: "List users"
+      operationId: "getUsers"
+      tags:
+        - "Users"
+      responses:
+        200:
+          description: "Successful response"
+    post:
+      summary: "Create a user"
+      operationId: "createUser"
+      tags:
+        - "Users"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: "mdm@example.com"
+                    organization_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example: [1,2,3]
+      responses:
+        200:
+          description: "User created"
+
+  /api/v1/users/{id}:
+    patch:
+      summary: "Update a user"
+      operationId: "updateUser"
+      tags:
+        - "Users"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: "mdm@example.com"
+                    organization_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example: [1,2,3]
+      responses:
+        200:
+          description: "User updated"
+    delete:
+      summary: "Delete a user"
+      operationId: "deleteUser"
+      tags:
+        - "Users"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "User deleted"
+  /api/v1/users/{id}/restore:
+    patch:
+      summary: "Restore a user"
+      operationId: "restoreUser"
+      tags:
+        - "Users"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "User restored"
+  /api/v1/devices:
+    get:
+      summary: "List devices"
+      operationId: "getDevices"
+      tags:
+        - "Devices"
+      responses:
+        200:
+          description: "Successful response"
+    post:
+      summary: "Create a device"
+      operationId: "createDevice"
+      tags:
+        - "Devices"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                device:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                      example: 1
+                    serial_number:
+                      type: string
+                      example: "SE0001"
+                    device_type:
+                      type: string
+                      enum:
+                        - "ios"
+                        - "android"
+                        - "windows"
+      responses:
+        200:
+          description: "Device created"
+  /api/v1/devices/{id}:
+    patch:
+      summary: "Update a device"
+      operationId: "updateDevice"
+      tags:
+        - "Devices"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                device:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                      example: 1
+                    serial_number:
+                      type: string
+                      example: "SE0001"
+                    device_type:
+                      type: string
+                      enum:
+                        - "ios"
+                        - "android"
+                        - "windows"
+      responses:
+        200:
+          description: "Device updated"
+    delete:
+      summary: "Delete a device"
+      operationId: "deleteDevice"
+      tags:
+        - "Devices"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Device deleted"
+  /api/v1/devices/{id}/restore:
+    patch:
+      summary: "Restore a device"
+      operationId: "restoreDevice"
+      tags:
+        - "Devices"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Device restored"
