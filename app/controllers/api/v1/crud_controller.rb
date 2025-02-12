@@ -6,11 +6,7 @@ class Api::V1::CrudController < ApplicationController
   def index
     scope = support_soft_delete? ? resource_class.kept : resource_class
     resources = scope.ransack(params[:q]).result
-    pagy, = pagy(
-      resources,
-      limit: params[:limit] || Settings.limit.default,
-      page: params[:page] || Settings.page.default
-    )
+    pagy, = pagy(resources, limit: params[:limit], page: params[:page])
     response_success(
       {
         resource_key => resources.map do |resource|
@@ -23,20 +19,16 @@ class Api::V1::CrudController < ApplicationController
 
   def create
     resource = resource_class.new(resource_params)
-    update_associations(resource) if respond_to?(:update_associations, true)
-
     if resource.save
-      response_success({singular_resource_key => serializer_class.new(resource).as_json})
+      response_success(singular_resource_key => serializer_class.new(resource).as_json)
     else
       unprocessable_entity(resource)
     end
   end
 
   def update
-    update_associations(@resource) if respond_to?(:update_associations, true)
-
     if @resource.update(resource_params)
-      response_success({singular_resource_key => serializer_class.new(@resource).as_json})
+      response_success(singular_resource_key => serializer_class.new(@resource).as_json)
     else
       unprocessable_entity(@resource)
     end
@@ -45,8 +37,8 @@ class Api::V1::CrudController < ApplicationController
   def restore
     resource = resource_class.with_discarded.find(params[:id])
     if resource.undiscard
-      send_notification(resource, :restore)
-      response_success({singular_resource_key => serializer_class.new(resource).as_json})
+      NotificationService.send_notification(resource, :restore)
+      response_success(singular_resource_key => serializer_class.new(resource).as_json)
     else
       unprocessable_entity(resource)
     end
@@ -55,8 +47,8 @@ class Api::V1::CrudController < ApplicationController
   def destroy
     action = support_soft_delete? ? :discard : :destroy
     if @resource.public_send(action)
-      send_notification(@resource, :destroy)
-      response_success({singular_resource_key => serializer_class.new(@resource).as_json})
+      NotificationService.send_notification(@resource, :destroy)
+      response_success(singular_resource_key => serializer_class.new(@resource).as_json)
     else
       unprocessable_entity(@resource)
     end

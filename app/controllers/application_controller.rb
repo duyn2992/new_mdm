@@ -4,7 +4,6 @@ class ApplicationController < ActionController::API
   include Pagy::Backend
   include CommonResponse
   include ErrorCode
-  include NotificationService
 
   rescue_from ArgumentError, with: :handle_argument_error
 

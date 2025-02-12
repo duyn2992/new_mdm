@@ -2,3 +2,5 @@
 
 require "pagy/extras/limit"
 require "pagy/extras/metadata"
+
+Pagy::DEFAULT[:limit] = 10

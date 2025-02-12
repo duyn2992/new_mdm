@@ -27,12 +27,7 @@ class Device < ApplicationRecord
 
   belongs_to :user
 
-  enum :device_type,
-    {
-      ios: 0,
-      android: 1,
-      windows: 2
-    }
+  enum :device_type, ios: 0, android: 1, windows: 2
 
   validates :serial_number,
     presence: true,
