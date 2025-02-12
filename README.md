@@ -1,62 +1,39 @@
-# mdm
+# MDM
 
 This is a Rails 7.2 app.
 
-## Prerequisites
-
-This project requires:
-
-- Ruby 3.3.4
-- MySQL 8.0
-- Redis
-
 ## Getting started
 
-### bin/setup
+### Docker setup
 
 Run this script to install necessary dependencies and prepare the Rails app to be started for the first time.
 
 ```
-bin/setup
+cd {path_to_repository}
+docker compose -f .devcontainer/compose.yaml build
 ```
-
-> [!TIP]
-> The `bin/setup` script is idempotent and is designed to be run often. You should run it every time you pull code that introduces new dependencies or makes other significant changes to the project.
 
 ### Run the app!
 
-Start the Rails server with this command:
+Start docker with this command:
 
 ```
-bin/dev
+docker compose -f .devcontainer/compose.yaml up
 ```
 
-The app will be located at <http://localhost:3000/>.
-
-## Development
-
-Use this command to run the full suite of automated tests and lint checks:
+Setup database
 
 ```
-bin/rake
+docker compose -f .devcontainer/compose.yaml run rails-app bundle exec rails db:create
+docker compose -f .devcontainer/compose.yaml run rails-app bundle exec rails db:migrate
 ```
 
-> [!TIP]
-> Rake allows you to run all checks in parallel with the `-m` option. This is much faster, but since the output is interleaved, it may be harder to read.
+### Local endpoins
 
-```
-bin/rake -m
-```
+API Endpoint
 
-### Fixing lint issues
+http://0.0.0.0:3000
 
-Some lint issues can be auto-corrected. To fix them, run:
+API Document
 
-```
-bin/rake fix
-```
-
-> [!WARNING]
-> A small number of Rubocop's auto-corrections are considered "unsafe" and may
-> occasionally produce incorrect results. After running `fix`, you should
-> review the changes and make sure the code still works as intended.
+http://0.0.0.0:3000/api/docs/index.html
