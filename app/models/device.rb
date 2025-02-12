@@ -6,6 +6,7 @@
 #
 #  id            :bigint           not null, primary key
 #  device_type   :integer          default("ios"), not null
+#  discarded_at  :datetime
 #  serial_number :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -13,6 +14,7 @@
 #
 # Indexes
 #
+#  index_devices_on_discarded_at   (discarded_at)
 #  index_devices_on_serial_number  (serial_number) UNIQUE
 #  index_devices_on_user_id        (user_id)
 #
@@ -21,6 +23,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Device < ApplicationRecord
+  include Discard::Model
+
   belongs_to :user
 
   enum :device_type,

@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class Api::V1::CrudController < ApplicationController
+  before_action :set_resource, only: %i[update destroy]
+
   def index
-    resources = resource_class.ransack(params[:q]).result
+    scope = support_soft_delete? ? resource_class.kept : resource_class
+    resources = scope.ransack(params[:q]).result
     pagy, = pagy(
       resources,
       limit: params[:limit] || Settings.limit.default,
@@ -30,17 +33,38 @@ class Api::V1::CrudController < ApplicationController
   end
 
   def update
-    resource = resource_class.find(params[:id])
-    update_associations(resource) if respond_to?(:update_associations, true)
+    update_associations(@resource) if respond_to?(:update_associations, true)
 
-    if resource.update(resource_params)
+    if @resource.update(resource_params)
+      response_success({singular_resource_key => serializer_class.new(@resource).as_json})
+    else
+      unprocessable_entity(@resource)
+    end
+  end
+
+  def restore
+    resource = resource_class.with_discarded.find(params[:id])
+    if resource.undiscard
       response_success({singular_resource_key => serializer_class.new(resource).as_json})
     else
       unprocessable_entity(resource)
     end
   end
 
+  def destroy
+    action = support_soft_delete? ? :discard : :destroy
+    if @resource.public_send(action)
+      response_success({singular_resource_key => serializer_class.new(@resource).as_json})
+    else
+      unprocessable_entity(@resource)
+    end
+  end
+
   private
+
+  def set_resource
+    @resource = resource_class.find(params[:id])
+  end
 
   def resource_class
     controller_name.classify.constantize
@@ -56,5 +80,9 @@ class Api::V1::CrudController < ApplicationController
 
   def singular_resource_key
     resource_class.name.underscore.to_sym
+  end
+
+  def support_soft_delete?
+    resource_class.included_modules.include?(Discard::Model)
   end
 end

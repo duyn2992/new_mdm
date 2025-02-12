@@ -49,3 +49,6 @@ gem "ransack", github: "activerecord-hackery/ransack"
 
 # Config global variables
 gem "config"
+
+# Soft delete
+gem "discard"
