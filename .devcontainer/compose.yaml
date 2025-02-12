@@ -27,6 +27,19 @@ services:
     image: redis:7.2
     volumes:
     - redis-data:/data
+    ports:
+      - "6379:6379"
+
+  sidekiq:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    command: bundle exec sidekiq
+    depends_on:
+      - redis
+      - mysql
+    environment:
+      REDIS_URL: redis://redis:6379/1
 
   mysql:
     image: mysql/mysql-server:8.0

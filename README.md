@@ -10,6 +10,7 @@ Run this script to install necessary dependencies and prepare the Rails app to b
 
 ```
 cd {path_to_repository}
+cp .env.sample .env
 docker compose -f .devcontainer/compose.yaml build
 ```
 
@@ -37,3 +38,30 @@ http://0.0.0.0:3000
 API Document
 
 http://0.0.0.0:3000/api/docs/index.html
+
+Sidekiq::Web
+
+http://0.0.0.0:3000/sidekiq
+
+## Extended features
+
+### 1/ Build a background job processing system for heavy tasks (e.g., sending bulk emails, importing large datasets, processing reports).
+```
+### Notes
+# Backup when change database
+# Optimize batch size to balance performance and memory usage
+# Using insert_all to optimize query
+# Using sleep between batches to prevent system overload
+# Using transaction to ensure data consistency
+# Implement with simple logic
+# Log progress and errors for monitoring and debugging.
+# Schedule job during off-peak hours to minimize the impact on active users.
+# Separate queues for different job types to prevent queue congestion, prioritize critical jobs, and optimize resource allocation
+...
+```
+```
+bulk_email_job
+https://github.com/duyn2992/new_mdm/blob/develop/app/jobs/bulk_email_job.rb
+user_import_job
+https://github.com/duyn2992/new_mdm/blob/develop/app/jobs/user_import_job.rb
+```
