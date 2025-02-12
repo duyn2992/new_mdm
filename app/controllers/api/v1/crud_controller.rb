@@ -45,6 +45,7 @@ class Api::V1::CrudController < ApplicationController
   def restore
     resource = resource_class.with_discarded.find(params[:id])
     if resource.undiscard
+      send_notification(resource, :restore)
       response_success({singular_resource_key => serializer_class.new(resource).as_json})
     else
       unprocessable_entity(resource)
@@ -54,6 +55,7 @@ class Api::V1::CrudController < ApplicationController
   def destroy
     action = support_soft_delete? ? :discard : :destroy
     if @resource.public_send(action)
+      send_notification(@resource, :destroy)
       response_success({singular_resource_key => serializer_class.new(@resource).as_json})
     else
       unprocessable_entity(@resource)
