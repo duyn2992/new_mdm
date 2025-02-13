@@ -87,3 +87,16 @@ https://github.com/duyn2992/new_mdm/blob/develop/app/models/user.rb
 # Generate policies for models (e.g., UserPolicy, OrganizationPolicy) & define authorization
 # Handle unauthorized access
 ```
+
+### 4/ Real-time chat or notification functionality within the application.
+```
+### Notes
+# Using 
+# User authentication must be added.
+# Consider handling it using Redis & Sidekiq.
+```
+```
+Real time notification
+https://github.com/duyn2992/new_mdm/blob/develop/app/channels/notification_channel.rb
+https://github.com/duyn2992/new_mdm/blob/develop/app/services/notification_service.rb
+```
