@@ -45,6 +45,8 @@ http://0.0.0.0:3000/sidekiq
 
 ## Extended features
 
+### 0/ The actual implementation will depend on the specific requirements.
+
 ### 1/ Build a background job processing system for heavy tasks (e.g., sending bulk emails, importing large datasets, processing reports).
 ```
 ### Notes
@@ -91,7 +93,7 @@ https://github.com/duyn2992/new_mdm/blob/develop/app/models/user.rb
 ### 4/ Real-time chat or notification functionality within the application.
 ```
 ### Notes
-# Using 
+# Using Action Cable & Channel
 # User authentication must be added.
 # Consider handling it using Redis & Sidekiq.
 ```
@@ -100,3 +102,16 @@ Real time notification
 https://github.com/duyn2992/new_mdm/blob/develop/app/channels/notification_channel.rb
 https://github.com/duyn2992/new_mdm/blob/develop/app/services/notification_service.rb
 ```
+
+### 5/ Set up automatic tasks like sending reminder emails, cleaning up old data, or backing up the database
+```
+### Notes
+# Using sidekiq & sidekiq scheduler
+```
+```
+Clean up old data & backup database job schedule
+https://github.com/duyn2992/new_mdm/blob/develop/config/sidekiq.yml
+```
+
+### 6/ Split the user management functionality into a separate microservice, communicating via HTTP APIs.
+(Todo Confirm)
