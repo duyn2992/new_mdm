@@ -52,3 +52,6 @@ gem "config"
 
 # Soft delete
 gem "discard"
+
+# Redis
+gem "redis"

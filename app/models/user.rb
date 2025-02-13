@@ -36,7 +36,22 @@ class User < ApplicationRecord
     devices.undiscard_all
   end
 
+  after_destroy :clear_active_users_cache
+  after_save :clear_active_users_cache
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[email]
+  end
+
+  def self.active_users
+    Rails.cache.fetch("users:active", expires_in: 10.minutes) do
+      kept
+    end
+  end
+
+  private
+
+  def clear_active_users_cache
+    Rails.cache.delete("users:active")
   end
 end
