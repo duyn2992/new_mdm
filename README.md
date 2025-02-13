@@ -78,3 +78,12 @@ https://github.com/duyn2992/new_mdm/blob/develop/app/jobs/user_import_job.rb
 cache active_users
 https://github.com/duyn2992/new_mdm/blob/develop/app/models/user.rb
 ```
+
+### 3/ Integrate a detailed authorization system for users, based on different roles (Admin, User, Guest).
+```
+### Notes
+# (Todo) User authentication is required before implementing authorization
+# Using Pundit
+# Generate policies for models (e.g., UserPolicy, OrganizationPolicy) & define authorization
+# Handle unauthorized access
+```
